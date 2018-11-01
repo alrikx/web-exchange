@@ -1,0 +1,22 @@
+#!/bin/bash
+
+pic=$(dirname $2)/thumbnails/$(basename $2).jpg
+
+echo "---FOTO---"
+if [ $1 = '-l' ]
+then
+convert -rotate 270 $pic $pic.0
+else
+convert -rotate 90 $pic $pic.0
+fi
+mv $pic.0 $pic
+echo "---VIDEO---"
+mv $2 $2.0
+#https://stackoverflow.com/questions/3937387/rotating-videos-with-ffmpeg
+if [ $1 = '-l' ]
+then
+avconv -i $2.0 -filter:v 'transpose=2' -strict experimental $2
+else
+avconv -i $2.0 -filter:v 'transpose=1' -strict experimental $2
+fi
+rm $2.0
