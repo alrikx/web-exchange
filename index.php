@@ -54,7 +54,7 @@ echo $_SERVER['REQUEST_URI'];
 
 include 'Classes/DescriptionService.php';
 include 'Classes/FileFilter.php';
-include '../definitions.php';
+include __DIR__ . '/../definitions.php';
 
 $descService = new DescriptionService(getcwd());
 $descriptions = $descService->loadDescription();
