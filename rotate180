@@ -9,3 +9,5 @@ mv $pic.0 $pic
 echo "---VIDEOS---"
 mv $1 $1.0
 avconv -i $1.0 -c:a copy -vf "hflip,vflip" $1
+#remove leftover files
+rm $(dirname $1)/*.0 
