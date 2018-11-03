@@ -1,6 +1,7 @@
 <?php
 use Classes\DescriptionService;
 
+include __DIR__ . '/../definitions.php';
 include $classdir . 'Classes/FileFilter.php';
 include $classdir . 'Classes/FileService.php';
 include $classdir . 'Classes/DescriptionService.php';
