@@ -7,17 +7,31 @@ rm -rf $1/.DS_Store
 
 #Dateinamen anhand des Änderungsdatums mit einem Präfix (3-stellige Zahl) versehen, dadurch kommen die Files in die chronologisch richtige Reihenfolge
 count=1
-ls -tr $1 | while read file; do
-    source_file="$1/$file"
-    if [ $count -lt 10 ]; then
-        mv -v $source_file $1'/00'$count'_'$file
-    elif [ $count -lt 100 ]; then
-        mv -v $source_file $1'/0'$count'_'$file
-    else
-        mv -v $source_file $1'/'$count'_'$file
-    fi
-    count=$(($count+1))
-done
+if [ $2 -eq "-t" ]; then 
+    ls -tr $1 | while read file; do
+        source_file="$1/$file"
+        if [ $count -lt 10 ]; then
+              mv -v $source_file $1'/00'$count'_'$file
+        elif [ $count -lt 100 ]; then
+             mv -v $source_file $1'/0'$count'_'$file
+        else
+             mv -v $source_file $1'/'$count'_'$file
+        fi
+        count=$(($count+1))
+    done
+else
+    ls $1 | while read file; do
+        source_file="$1/$file"
+        if [ $count -lt 10 ]; then
+              mv -v $source_file $1'/00'$count'_'$file
+        elif [ $count -lt 100 ]; then
+             mv -v $source_file $1'/0'$count'_'$file
+        else
+             mv -v $source_file $1'/'$count'_'$file
+        fi
+        count=$(($count+1))
+    done
+fi
 
 mkdir $1/thumbnails
 echo "---FOTOS---"
@@ -38,10 +52,10 @@ do
 #	man hat 2 Optionen: entweder alle Videos drehen oder nicht, es kann durch aus/einkommentieren der folgenden Zeilen gesteuert werden:
 
 #	folgende Zeile Dreht alle Videos um 180 Grad - evtl nicht immer erwünscht
-	avconv -y -i $f.0 -movflags faststart -strict experimental -vf "scale=960:-1,hflip,vflip" $f 
+#	avconv -y -i $f.0 -movflags faststart -strict experimental -vf "scale=960:-1,hflip,vflip" $f 
 	
 #	folgende Zeile dreht die Videos NICHT
-#	avconv -y -i $f.0 -movflags faststart -strict experimental -vf "scale=960:-1" $f
+	avconv -y -i $f.0 -movflags faststart -strict experimental -vf "scale=960:-1" $f
 
 #	folgende Zeile erzeugt das Vorschaubild für das Video
 	avconv -y -i $f -f mjpeg -vframes 1 -ss 1 $1/thumbnails/$filename.jpg
