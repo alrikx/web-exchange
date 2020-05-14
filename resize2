@@ -35,35 +35,39 @@ fi
 
 mkdir $1/thumbnails
 echo "---FOTOS---"
-for f in $1/*.[JjPpGg][PpNnIi][GgFf]; 
-do
-	echo "$f"
-	filename=$(basename $f)
-	convert $f -auto-orient -thumbnail 300x300 -strip $1/thumbnails/$filename
-	mogrify -resize '1300x1300>' $f
-done
+find "$1" \( -name '*.[JjPpGg][PpNnIi][GgFf]' -o -name '*.[Jj][pG][eE][gG]' \) \
+  -exec sh -c '
+  for f do
+        echo \"$f\"
+        filename=$(basename $f)
+        convert $f -auto-orient -thumbnail 300x300 -strip '$1'/thumbnails/$filename
+        mogrify -resize '\''1300x1300>'\'' $f
+  done' sh {} +
+
 echo "---VIDEOS---"
-for f in $1/*.[mM][PpoO][4vV];
-do
+find "$1" \( -name '*.[mM][PpoO][4vV]' \) \
+  -exec sh -c '
+  for f do
         echo "$f"
         filename=$(basename $f)
-	mv $f $f.0
+        mv $f $f.0
 
-#	man hat 2 Optionen: entweder alle Videos drehen oder nicht, es kann durch aus/einkommentieren der folgenden Zeilen gesteuert werden:
+#       man hat 2 Optionen: entweder alle Videos drehen oder nicht, es kann durch aus/einkommentieren der folgenden Zeilen gesteuert werden:
 
-#	folgende Zeile Dreht alle Videos um 180 Grad - evtl nicht immer erwünscht
-#	avconv -y -i $f.0 -movflags faststart -strict experimental -vf "scale=960:-1,hflip,vflip" $f 
-	
-#	folgende Zeile dreht die Videos NICHT
-	ffmpeg -y -i $f.0 -movflags faststart -strict experimental -vf "scale=960:-1" $f
+#       folgende Zeile Dreht alle Videos um 180 Grad - evtl nicht immer erwünscht
+#       avconv -y -i $f.0 -movflags faststart -strict experimental -vf "scale=960:-1,hflip,vflip" $f
 
-#	folgende Zeile erzeugt das Vorschaubild für das Video
-	ffmpeg -y -i $f -f mjpeg -vframes 1 -ss 1 $1/thumbnails/$filename.jpg
-	mogrify -resize '400x400>' $1/thumbnails/$filename.jpg
-done
+#       folgende Zeile dreht die Videos NICHT
+        ffmpeg -y -i $f.0 -movflags faststart -strict experimental -vf "scale=960:-2" $f
+
+#       folgende Zeile erzeugt das Vorschaubild für das Video
+        ffmpeg -y -i $f -f mjpeg -vframes 1 -ss 1 '$1'/thumbnails/$filename.jpg
+        mogrify -resize '\''400x400>'\'' '$1'/thumbnails/$filename.jpg
+  done' sh {} +
+
 #überreste vom Konvertieren beseitigen
 rm -rf $1/*.0
-ln -s ~/Documents/exchange_pictures/index.php $1/index.php
+ln -s /share/scripts/index.php $1/index.php
 
 size_end=$(du -sh $1)
 
