@@ -59,7 +59,6 @@ echo $_SERVER['REQUEST_URI'];
 
 include 'Classes/DescriptionService.php';
 include 'Classes/FileFilter.php';
-include __DIR__ . '/../definitions.php';
 
 $descService = new DescriptionService(getcwd());
 $descriptions = $descService->loadDescription();
@@ -83,7 +82,7 @@ foreach ($all_files as $index => $datei) { // Ausgabeschleife
         echo '<td class="basecell"><div class="tile"><a href="' . $datei . '" ><img src="thumbnails/' . $datei . '"></a><br />';
         echo '<div class="filename">' . $datei . '</div><div class="description">' . $description . "</div></div></td>"; // Ausgabe Einzeldatei
     } else {
-        echo '<td class="basecell"><div class="tile"><video src="' . $video_definition . $_SERVER['REQUEST_URI'] . '/' . $datei . '" width="400" poster="thumbnails/' . $datei . '.jpg" controls></video><br />';
+        echo '<td class="basecell"><div class="tile"><video src="' . $_SERVER['REQUEST_URI'] . '/' . $datei . '" width="400" poster="thumbnails/' . $datei . '.jpg" controls></video><br />';
         echo '<div class="filename">' . $datei . '</div><div class="description">' . $description . "</div></div></td>"; // Ausgabe Einzeldatei
     }
 
