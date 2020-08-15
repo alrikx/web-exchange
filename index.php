@@ -19,6 +19,10 @@ div.tile {
 	text-align: center;
 }
 
+a.bye {
+    font-size: 44px;
+}
+
 div.filename {
    font-size: 11px;
    color: #cccccc;
@@ -49,7 +53,7 @@ use Classes\DescriptionService;
 
 echo $_SERVER['REQUEST_URI'];
 ?></h1>
-		<a href="../">zum übergeordneten Ordner</a><br /> <br />
+		<a href="../">Mehr Fotos ansehen</a><br /> <br />
 		<table class="center">
 <?php
 
@@ -92,6 +96,9 @@ foreach ($all_files as $index => $datei) { // Ausgabeschleife
 ?>
 
 </table>
-		<a href="#top">nach oben</a>
+<a class="bye" href="../">Mehr Fotos ansehen</a>
+<br/>
+<br/>
+<a href="#top">nach oben</a>
 	</div>
 </body>

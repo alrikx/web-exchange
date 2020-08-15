@@ -51,7 +51,7 @@ if ($mode == "alt") {
                 echo "<a href='http://" . $ext_dir . $single_file . "'><br />";
                 echo "<img src='http://" . $ext_dir . "/thumbnails/" . $single_file . "'/></a><br />";
             } else {
-                echo "<video src='" . $vid_def_short . $ext_dir . $single_file . "' width='400' poster='http://" . $ext_dir . "/thumbnails/" . $single_file . ".jpg' controls></video><br />";
+                echo "<video src='http://" . $ext_dir . $single_file . "' width='400' poster='http://" . $ext_dir . "/thumbnails/" . $single_file . ".jpg' controls></video><br />";
             }
             echo $single_file . "<br />";
             $currentdescription = '';
